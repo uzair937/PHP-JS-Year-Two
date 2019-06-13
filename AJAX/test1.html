@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test page</title>
+</head>
+<body>
+<p id="test1"></p>
+<button id="button1">Click</button>
+<script>
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'send-ajax-data.php');
+
+        xhr.onreadystatechange = function()
+        {
+            var DONE = 4; //readyState 4 means the request is done
+            var OK = 200; //status 200 is a successful return
+            if (xhr.readyState === DONE)
+            {
+                if (xhr.status === OK)
+                {
+                    console.log(xhr.responseText);
+                    document.getElementById("test1").innerHTML = xhr.responseText;
+                }
+                else
+                {
+                    console.log('Error: ' + xhr.status);
+                }
+            }
+        }
+        //xhr.send(null);
+
+        function onclickHandler(event)
+        {
+            xhr.send(null);
+        }
+        document.getElementById('button1').addEventListener('click', onclickHandler, false);
+
+    </script>
+</body>
+</html>

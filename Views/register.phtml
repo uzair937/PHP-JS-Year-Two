@@ -1,0 +1,19 @@
+<?php require('template/header.phtml') ?>
+
+<h3>Login/Register</h3>
+
+<form class="form" method="post" action="../Models/passingData.php"> <!--passes all of this into the passingdata php file-->
+    <input type="text" placeholder="User Name" name="userName" class="formElement" required>
+    <input type="password" placeholder="Password" name="password" class="formElement" required>
+    <input type="text" placeholder="First Name" name="firstName" class="formElement" required>
+    <input type="text" placeholder="Surname" name="surName" class="formElement" required>
+    <input type="text" placeholder="E-Mail" name="email" class="formElement" required>
+    <input type="text" placeholder="Address Line 1" name="address1" class="formElement" required>
+    <input type="text" placeholder="Address Line 2" name="address2" class="formElement">
+    <input type="text" placeholder="Town/City" name="city" class="formElement" required>
+    <input type="text" placeholder="Postcode" name="postCode" class="formElement" required>
+    <input type="text" placeholder="Phone Number" name="phoneNo" class="formElement">
+    <button type="submit" class="submit1">Submit</button>
+</form>
+
+<?php require('template/footer.phtml') ?>

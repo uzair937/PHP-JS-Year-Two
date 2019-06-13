@@ -1,0 +1,83 @@
+<?php session_start(); ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="/css/bootstrap-theme.css" rel="stylesheet">
+    <link href="/css/my-style.css" rel="stylesheet">
+
+    <title>GMCars<?php echo $view->pageTitle; ?></title>
+</head>
+
+<body role="document">
+
+<div class="container">
+        <div  class="row">
+            <div id="title" class="col-xs-12">
+                <a href="index.php"><img src="images/GMCars_logo.png" alt="Greater Manchester Cars" /></a>
+                <!--                    <div class="pull-right"> <h1>--><?php //echo $view->pageTitle ?><!-- </h1></div>-->
+            </div>
+            <div class="searchBar">
+                <input type="text" name='searchBar' onkeypress="handle(event)" placeholder="Search.." id="searchBar">
+                <button type="button" onclick="search()">Submit</button>
+                <script>
+                    function search() {
+                        //if the enter key is pressed
+                            window.location="browse.php?searchTerm="+document.getElementById('searchBar').value;
+
+                    }
+                </script>
+            </div>
+        </div>
+<?php
+    if(isset($_SESSION['login_user']))
+        {
+            echo "<div class=\"row\">
+                  <div id=\"menu\" class=\"col-xs-6 col-sm-3 col-md-2\">
+                  <ul class=\"nav navbar_default nav-stacked\">
+                      <li><a href=\"index.php\">Home</a></li>
+                      <li><a href=\"logout.php\">Logout</a></li>
+                      <li><a href=\"newAdvert.php\">Post Advert</a></li>
+                      <!--<li><a href=\"search.php\">Search</a></li>-->
+                      <li><a href=\"browse.php\">Browse</a></li>
+                      <li><a href=\"wishlist.php\">Wish List</a></li>
+                  </ul>
+                  </div>";
+        }
+        elseif(isset($_SESSION['admin_user']))
+        {
+                echo "<div class=\"row\">
+                <div id=\"menu\" class=\"col-xs-6 col-sm-3 col-md-2\">
+                <ul class=\"nav navbar_default nav-stacked\">
+                    <li><a href=\"index.php\">Home</a></li>
+                    <li><a href=\"logout.php\">Logout</a></li>
+                    <li><a href=\"newAdvert.php\">Post Advert</a></li>
+                    <!--<li><a href=\"search.php\">Search</a></li>-->
+                    <li><a href=\"browse.php\">Browse</a></li>
+                    <li><a href=\"wishlist.php\">Wish List</a></li>
+                    <li><a href=\"admin.php\">Admin Panel</a></li>
+                </ul>
+       </div>";
+        }
+        else
+        {
+            echo "<div class=\"row\">
+                <div id=\"menu\" class=\"col-xs-6 col-sm-3 col-md-2\">
+                <ul class=\"nav navbar_default nav-stacked\">
+                    <li><a href=\"index.php\">Home</a></li>
+                    <li><a href=\"login.php\">Login</a></li>
+                    <li><a href=\"register.php\">Register</a></li>
+                </ul>
+       </div>";
+        }
+?>
+    <div id="content" class="col-xs-6 col-sm-9 col-md-10">

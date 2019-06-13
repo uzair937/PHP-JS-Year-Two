@@ -1,0 +1,141 @@
+<?php require('template/header.phtml')?>
+
+<h3>Browse</h3>
+<body>
+<form>
+    Live Search: <input type="text" onkeyup="showHint(this.value)">
+</form>
+<p><b>Results: </b><span id="txtHint"></span></p>
+<script>
+    var noOfAdverts=10;
+    if (window.location.href.indexOf("?") > -1)
+    {
+        // window.onload = function() {adDisplaySearch()}
+    }
+    else
+    {
+        window.onload = function() { adDisplay(); };
+    }
+
+
+    function showHint(str)
+    {
+        if (str.length===0)
+        {
+            document.getElementById("txtHint").innerHTML = "";
+            return;
+        }
+        else
+        {
+            var xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.onreadystatechange = function()
+            {
+                if (this.readyState=== 4 && this.status === 200)
+                {
+                    var uic = document.getElementById("txtHint");
+                    varArray = this.response;
+                    encodeArray = JSON.parse(varArray);
+                    console.log(encodeArray);
+                    uic.innerHTML="";
+                    var i =0;
+                    while(i<=5)
+                    {
+                        var carMod=encodeArray[i]['carMod'];
+                        uic.innerHTML += "<a href='browse.php?searchTerm="+ carMod +"' >"+ carMod +"("+encodeArray[i]['carMan']+")</a>,";
+                        // uic.innerHTML+=carMod;
+                        i++;
+                    }
+                }
+            }
+            xmlhttp.open("GET", "LiveSearch.php?q=" + str, true);
+            xmlhttp.send();
+        }
+    }
+
+    function adDisplay()
+    {
+        var uic = document.getElementById("txtHint");
+        uic.innerHTML="";
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState=== 4 && this.status === 200) {
+
+                varArray = this.response;
+                encodeArray = JSON.parse(varArray);
+                console.log(encodeArray);
+                var i = 0;
+
+                while (i < noOfAdverts) {
+                    uic.innerHTML += "<div id='wrap'>"
+                    uic.innerHTML += "<div class='adDisplay'>";
+                    //uic.innerHTML += "<img src="+encodeArray[i]['adImg']+"\>";
+                    uic.innerHTML += "<p>Advert ID: "+encodeArray[i]['adID']+"</p>";
+                    uic.innerHTML += "<p>Manufacturer: "+encodeArray[i]['carMan']+"</p>";
+                    uic.innerHTML += "<p>Model: "+encodeArray[i]['carMod']+"</p>";
+                    uic.innerHTML += "<p>Year: "+encodeArray[i]['yr']+"</p>";
+                    uic.innerHTML += "<p>Mileage: "+encodeArray[i]['mile']+"</p>";
+                    uic.innerHTML += "<p>Fuel Type: "+encodeArray[i]['fuel']+"</p>";
+                    uic.innerHTML += "<p>Engine Size: "+encodeArray[i]['eng']+"</p>";
+                    uic.innerHTML += "<p>Price: £"+encodeArray[i]['cash']+"</p>";
+                    uic.innerHTML += "<p>Contact Number: "+encodeArray[i]['cn']+"</p>";
+                    uic.innerHTML += "<button onclick=\"window.location.href='addWish.php?id="+ encodeArray[i]['adID']+"\">Add To WishList</button>";
+                    uic.innerHTML += "</div>";
+                    uic.innerHTML += "</div>";
+                    i++;
+                }
+            }
+        }
+        xmlhttp.open("GET", "scroll.php", true);
+        xmlhttp.send();
+    }
+
+    function scrollBottom2()
+    {
+        noOfAdverts += 5;
+        wrap.innerHTML += adDisplay();
+    }
+
+    window.onscroll = function(ev)
+    {
+        if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight)
+        {
+            scrollBottom2();
+            //alert("test");
+        }
+    }
+</script>
+
+<button onclick="scrollBottom2()">Load More</button>
+<?php
+require("Models/AdvertDataSet.php"); //requires advertdataset
+$adSet = new AdvertDataSet(); //creates a new advertdataset
+$adArray = $adSet->viewAdvert(); //calls the view advert method
+
+if (isset($_GET['searchTerm'])) {
+    $x = $_GET['searchTerm'];
+    $adArray = $adSet ->adSearch($x);
+    foreach($adArray as &$value) //for each item in the array
+    {
+        echo "<div class='adDisplay'>"; //displays each item in the following order
+        //echo "<img src=" .$value->adImg. "\>";
+        echo "<p>Advert ID: ".$value->adID."</p>";
+        echo "<p>Manufacturer: ".$value->carMan."</p>";
+        echo "<p>Model: ".$value->carMod."</p>";
+        echo "<p>Year: ".$value->yr."</p>";
+        echo "<p>Mileage: ".$value->mile."</p>";
+        echo "<p>Fuel Type: ".$value->fuel."</p>";
+        echo "<p>Engine Size: ".$value->eng."</p>";
+        echo "<p>Price: ".$value->cash."</p>";
+        echo "<p>Contact Number: ".$value->cn."</p>";
+        echo "<button onclick=\"window.location.href='addWish.php?id=$value->adID'\">Add To WishList</button>";
+        //adds that particular advert to the wishlist
+        echo "</div>";
+    }
+}
+
+
+?>
+</body>
+
+<?php require('template/footer.phtml') ?>

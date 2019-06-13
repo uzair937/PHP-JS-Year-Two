@@ -1,0 +1,19 @@
+<?php require('template/header.phtml') ?>
+
+<h3>New Advert</h3>
+
+<form class="form" name="form1" enctype="multipart/form-data" method="post" action="../Models/passingData.php">
+    <input type="text" maxlength="12" placeholder="Car Manufacturer" name="carMan" class="formElement" required>
+    <input type="text" maxlength="12" placeholder="Car Model" name="carMod" class="formElement" required>
+    <input type="text" maxlength="4" placeholder="Year" name="year" class="formElement" required>
+    <input type="text" maxlength="6" placeholder="Mileage" name="mileage" class="formElement" required>
+    <input type="text" placeholder="Fuel Type" name="fuelType" class="formElement" required>
+    <input type="text" placeholder="Engine Size" name="engineSize" class="formElement" required>
+    <input type="text" placeholder="Price (£)" name="price" class="formElement" required>
+    <input type="text" placeholder="Contact Number" name="contactNumber" class="formElement" required>
+    <input type="hidden" name="sizeLimit" value="30000"/>
+    <input name="adImage" type="file"/>
+    <input type="hidden" name="wishList" value="0"/>;
+    <input type="submit" value="Submit" class="submit1"/>
+</form>
+<?php require('template/footer.phtml') ?>

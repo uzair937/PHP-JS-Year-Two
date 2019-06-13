@@ -1,0 +1,20 @@
+<?php require('template/header.phtml') ?>
+<h3>Wishlist</h3>
+<?php
+
+    require("Models/WishDataSet.php"); //requires wishdataset
+
+    $wishSet = new WishDataSet(); //creates a new wishdataset
+    $wishArray = $wishSet->viewWishList(); //calls the view wishlist method
+
+    foreach($wishArray as &$value) //for each item in the array
+    {
+        echo "<div class='adDisplay'>"; //displays each item in the following order
+        echo "<p>Advert ID: " . $value->aID . "</p>";
+        echo "<p>Wish ID: " . $value->wID . "</p>";
+        echo "<button onclick=\"window.location.href='removeWish.php?id=$value->wID'\">Remove from WishList</button>";
+        // allows the user to remove that item from the wishlist
+        echo "</div>";
+    }
+?>
+<?php require('template/footer.phtml') ?>

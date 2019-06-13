@@ -1,0 +1,12 @@
+<?php require('template/header.phtml') ?>
+<h3>Login/Register</h3>
+<body>
+    <form class="form" method="post" action="../login.php">
+        <input type="text" placeholder="Username" name="varUserName" class="formElement" required>
+        <input type="password" placeholder="Password" name="varPassword" class="formElement" required>
+        <input type="submit" name="submit" class="submit1">
+        <a href="../register.php" class="formElement">Register</a>
+    <!--<div class="formElement"><a href="../reset.php">Forgot password?</a></div>-->
+    </form>
+</body>
+<?php require('template/footer.phtml') ?>

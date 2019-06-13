@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Search</title>
+</head>
+<body>
+<p>Try and type a name into the input field below:</p>
+<form>
+    First name: <input type="text" onkeyup="showHint(this.value)">
+</form>
+<p>Suggestions: <span id="txtHint"></span></p>
+<script>
+    function showHint(str)
+    {
+        //alert('test');
+        if (str.length===0)
+        {
+            alert('test1');
+            document.getElementById("txtHint").innerHTML = "";
+            return;
+        }
+        else
+        {
+           // alert('test2');
+            var xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.onreadystatechange = function()
+            {
+              //  alert('test3');
+                if (this.readyState=== 4 && this.status === 200)
+                {
+                   // alert('test4');
+                    var uic = document.getElementById("txtHint");
+                    uic.innerHTML = this.responseText;
+
+                }
+            }
+            xmlhttp.open("GET", "gethint.php?q=" + str, true);
+            xmlhttp.send();
+        }
+    }
+</script>
+</body>
+</html>

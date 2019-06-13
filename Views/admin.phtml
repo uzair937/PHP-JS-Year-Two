@@ -1,0 +1,62 @@
+<?php require('template/header.phtml') ?>
+
+<h3>Admin Panel</h3>  <!--This file is only usable by admins-->
+
+<?php
+require("Models/AdvertDataSet.php"); //requires advertdataset
+require("Models/UserDataSet.php"); //requires userdataset
+
+$adSet = new AdvertDataSet(); //creates a new advertdataset object
+$adArray = $adSet->viewAdvert(); //views the adverts
+
+foreach($adArray as &$value1) //allows the displaying of adverts
+{
+    echo "<div class='adDisplay'>";
+    echo "<img src=\"uploads".$value1->adImg."\">";
+    echo "<h>Adverts</h>";
+    echo "<p>Advert ID: ".$value1->adID."</p>";
+    echo "<p>Manufacturer: ".$value1->carMan."</p>";
+    echo "<p>Model: ".$value1->carMod."</p>";
+    echo "<p>Year: ".$value1->yr."</p>";
+    echo "<p>Mileage: ".$value1->mile."</p>";
+    echo "<p>Fuel Type: ".$value1->fuel."</p>";
+    echo "<p>Engine Size: ".$value1->eng."</p>";
+    echo "<p>Price: ".$value1->cash."</p>";
+    echo "<p>Contact Number: ".$value1->cn."</p>";
+    echo "</div>";
+}
+
+$userSet = new UserDataSet(); //creates a new userdataset
+$userArray = $userSet->viewUsers(); //calls view users
+foreach($userArray as &$value2) //shows the users registered to the site
+{
+    echo "<div class='userDisplay'>";
+    echo "<h>Registered Users</h>";
+    echo "<p>User ID: ".$value2->uID."</p>";
+    echo "<p>Username: ".$value2->uName."</p>";
+    echo "<p>First Name: ".$value2->fName."</p>";
+    echo "<p>Surname: ".$value2->sName."</p>";
+    echo "<p>Email: ".$value2->mail."</p>";
+    echo "<p>Phone Number: ".$value2->number."</p>";
+    echo "<p>Address Line 1: ".$value2->add1."</p>";
+    echo "<p>Address Line 2: ".$value2->add2."</p>";
+    echo "<p>City: ".$value2->city."</p>";
+    echo "<p>Postcode: ".$value2->pcode."</p>";
+    //echo "<p>Password: ".$value2->pword."</p>";
+    echo "</div>";
+}
+
+?>
+<html>
+<form class="form" name="form3" enctype="multipart/form-data" method="post" action="../removeAd.php">
+    <input type="text" maxlength="200" placeholder="Remove (Advert ID)" name="adID" class="formElement" required>
+    <input type="submit" name="submit" value="Submit" class="submit1"/>
+</form>
+
+<form class="form" name="form3" enctype="multipart/form-data" method="post" action="../removeUser.php">
+    <input type="text" maxlength="200" placeholder="Remove (User ID)" name="uID" class="formElement" required>
+    <input type="submit" name="submit" value="Submit" class="submit1"/>
+</form>
+
+</html>
+<?php require('template/footer.phtml') ?>
